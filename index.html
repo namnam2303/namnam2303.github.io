@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Journey ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff8a8a, #ff6b6b);
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .heart {
+            position: relative;
+            width: 200px;  /* Increased from 100px */
+            height: 200px; /* Increased from 100px */
+            margin: 40px auto;
+            animation: pulse 1.5s ease infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100px;  /* Increased from 50px */
+            height: 160px; /* Increased from 80px */
+            background: red;
+            border-radius: 100px 100px 0 0; /* Increased radius */
+        }
+
+        .heart::before {
+            left: 100px; /* Adjusted position for bigger heart */
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Increased shadow */
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Increased shadow */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); } /* Reduced scale for smoother animation */
+            100% { transform: scale(1); }
+        }
+
+        .message {
+            color: white;
+            font-size: 32px; /* Increased from 24px */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+        }
+
+        .counter {
+            color: white;
+            font-size: 22px; /* Increased from 18px */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin-top: 25px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards 1s;
+        }
+
+        .counter-number {
+            font-size: 36px; /* Increased from 28px */
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 15px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;  /* Increased from 6px */
+            height: 8px; /* Increased from 6px */
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart"></div>
+        <div class="message">I Love Vu Minh Hang</div>
+        <div class="counter">
+            <div>Our Journey Together</div>
+            <div class="counter-number" id="days">0</div>
+            <div>Days of Love</div>
+        </div>
+    </div>
+
+    <script>
+        const startDate = new Date('2024-11-15');
+
+        function updateCounter() {
+            const today = new Date();
+            const timeDiff = today - startDate;
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            document.getElementById('days').textContent = daysDiff;
+        }
+
+        function createSparkles() {
+            const sparklesContainer = document.createElement('div');
+            sparklesContainer.className = 'sparkles';
+            document.body.appendChild(sparklesContainer);
+
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparklesContainer.appendChild(sparkle);
+
+                setInterval(() => {
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animation = 'sparkle 1.5s ease';
+                    
+                    sparkle.addEventListener('animationend', () => {
+                        sparkle.style.animation = '';
+                    }, {once: true});
+                }, 2000 + (Math.random() * 3000));
+            }
+        }
+
+        // Initialize everything
+        updateCounter();
+        createSparkles();
+        
+        // Update the counter 
+        setInterval(updateCounter, 1000 * 60 * 60 * 24);
+    </script>
+</body>
+</html>
