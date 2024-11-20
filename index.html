@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -18,31 +19,31 @@
 
         .container {
             text-align: center;
+            width: 100%;
+            padding: 20px;
         }
-
         .heart {
             position: relative;
-            width: 200px;  /* Increased from 100px */
-            height: 200px; /* Increased from 100px */
-            margin: 40px auto;
+            width: 300px;  /* Increased from 100px */
+            height: 300px; /* Increased from 100px */
+            margin: 30px auto 0px auto;
             animation: pulse 1.5s ease infinite;
         }
-
         .heart::before,
         .heart::after {
             content: '';
             position: absolute;
-            width: 100px;  /* Increased from 50px */
-            height: 160px; /* Increased from 80px */
+            width: 150px;  /* Increased from 50px */
+            height: 240px; /* Increased from 80px */
             background: red;
             border-radius: 100px 100px 0 0; /* Increased radius */
         }
 
         .heart::before {
-            left: 100px; /* Adjusted position for bigger heart */
+            left: 150px; /* Adjusted position for bigger heart */
             transform: rotate(-45deg);
             transform-origin: 0 100%;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Increased shadow */
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.3); /* Increased shadow */
         }
 
         .heart::after {
@@ -58,18 +59,28 @@
             100% { transform: scale(1); }
         }
 
+
+        .names {
+            color: white;
+            font-size: clamp(24px, 5vw, 40px);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+            padding-bottom: 20px;
+        }
+
         .message {
             color: white;
-            font-size: 32px; /* Increased from 24px */
+            font-size: clamp(24px, 5vw, 32px);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            margin-top: 40px;
             opacity: 0;
             animation: fadeIn 2s ease forwards;
         }
 
         .counter {
             color: white;
-            font-size: 22px; /* Increased from 18px */
+            font-size: clamp(18px, 4vw, 22px);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
             margin-top: 25px;
             opacity: 0;
@@ -77,16 +88,24 @@
         }
 
         .counter-number {
-            font-size: 36px; /* Increased from 28px */
+            font-size: clamp(28px, 6vw, 36px);
             font-weight: bold;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             margin: 15px 0;
+            font-family: monospace;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .sparkles {
@@ -98,39 +117,58 @@
 
         .sparkle {
             position: absolute;
-            width: 8px;  /* Increased from 6px */
-            height: 8px; /* Increased from 6px */
+            width: clamp(6px, 2vw, 10px);
+            height: clamp(6px, 2vw, 10px);
             background: white;
             border-radius: 50%;
             opacity: 0;
         }
 
         @keyframes sparkle {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(0); opacity: 0; }
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
+        <div class="names">Nguyen Phuong Nam</div>
         <div class="heart"></div>
         <div class="message">Vu Minh Hang</div>
         <div class="counter">
             <div>Our Journey Together</div>
-            <div class="counter-number" id="days">....</div>
-            <div>Days of Love</div>
+            <div class="counter-number" id="timer">Loading...</div>
+            <div>From : 07:42:05 - 20/11/2024</div>
         </div>
     </div>
 
     <script>
-        const startDate = new Date('2024-11-15');
+        const startDate = new Date('2024-11-20T07:42:05');
 
         function updateCounter() {
-            const today = new Date();
-            const timeDiff = today - startDate;
-            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                // document.getElementById('days').textContent = daysDiff;
+            const now = new Date();
+            const timeDiff = now - startDate;
+
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            const formattedTime = `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
+            document.getElementById('timer').textContent = formattedTime;
         }
 
         function createSparkles() {
@@ -147,10 +185,10 @@
                     sparkle.style.left = Math.random() * 100 + '%';
                     sparkle.style.top = Math.random() * 100 + '%';
                     sparkle.style.animation = 'sparkle 1.5s ease';
-                    
+
                     sparkle.addEventListener('animationend', () => {
                         sparkle.style.animation = '';
-                    }, {once: true});
+                    }, { once: true });
                 }, 2000 + (Math.random() * 3000));
             }
         }
@@ -158,9 +196,10 @@
         // Initialize everything
         updateCounter();
         createSparkles();
-        
-        // Update the counter 
-        setInterval(updateCounter, 1000 * 60 * 60 * 24);
+
+        // Update the counter every second
+        setInterval(updateCounter, 1000);
     </script>
 </body>
+
 </html>
